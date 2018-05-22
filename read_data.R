@@ -5,7 +5,7 @@ library(reshape2)
 
 # US
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/US")
-us_raw <- read.zoo("./Data/FRB_H15.csv", 
+us_raw <- read.zoo("FRB_H15.csv", 
                    header = TRUE, 
                    sep = ",",
                    format="%m/%d/%Y",
@@ -16,6 +16,7 @@ us_raw <- us_raw[time(us_raw) >= '1982-01-04']
 # maturities 3m to 10y
 us_raw <- us_raw[,2:9]
 colnames(us_raw) <- c(3, 6, 12, 24, 36, 60, 84, 120)
+us_raw <- as.xts(us_raw)
 
 # Germany
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/DE")
@@ -60,8 +61,22 @@ ca_raw <- merge(ca_raw[[1]], ca_raw[[2]], ca_raw[[3]], ca_raw[[4]], ca_raw[[5]],
 colnames(ca_raw) <- c(120,24,36,60,6,84)
 ca_raw <- ca_raw[time(ca_raw) >= '1982-01-04']
 
+m12 <- read.zoo("12m.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+m48 <- read.zoo("48m.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+m12 <- as.xts(m12)
+m48 <- as.xts(m48)
+m12 <- to.monthly(m12, drop.time = TRUE)
+m48 <- to.monthly(m48, drop.time = TRUE)
 
+ca_raw <- merge(ca_raw, m12$m12.Close, m48$m48.Close)
+colnames(ca_raw) <- c(120,24,36,60,6,84,12,48)
 # UK
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/UK")
 uk_raw <- read.zoo("curve_data.csv", header = TRUE, sep = ",", index.column = 1, format = "%d-%b-%y")
 colnames(uk_raw) <- substr(colnames(uk_raw), start =2, stop = 10)
+uk_raw <- as.xts(uk_raw)
+
+# Japan
+setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/JP")
+jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
+jp_raw <- as.xts(jp_raw)
