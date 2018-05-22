@@ -83,6 +83,7 @@ setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/UK")
 uk_raw <- read.zoo("curve_data.csv", header = TRUE, sep = ",", index.column = 1, format = "%d-%b-%y")
 colnames(uk_raw) <- substr(colnames(uk_raw), start =2, stop = 10)
 uk_raw <- as.xts(uk_raw)
+uk_raw <- uk_raw[,c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")]
 
 # Japan
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/JP")
