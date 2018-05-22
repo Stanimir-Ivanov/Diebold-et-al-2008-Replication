@@ -18,6 +18,12 @@ us_raw <- us_raw[,2:9]
 colnames(us_raw) <- c(3, 6, 12, 24, 36, 60, 84, 120)
 us_raw <- as.xts(us_raw)
 
+month <- function(x) format(x, "%Y-%m")
+
+us_raw <- us_raw[!is.na(us_raw[,1]),]
+us_raw <- aggregate(us_raw, by=month, FUN=last)
+us_raw <- as.xts(us_raw, order.by = as.yearmon(format(time(us_raw)), "%Y-%m"))
+
 # Germany
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/DE")
 file.list <- list.files(pattern='*.csv')
@@ -70,6 +76,8 @@ m48 <- to.monthly(m48, drop.time = TRUE)
 
 ca_raw <- merge(ca_raw, m12$m12.Close, m48$m48.Close)
 colnames(ca_raw) <- c(120,24,36,60,6,84,12,48)
+ca_raw <- ca_raw[,c("6","12","24","36","48","60","84","120")]
+
 # UK
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/UK")
 uk_raw <- read.zoo("curve_data.csv", header = TRUE, sep = ",", index.column = 1, format = "%d-%b-%y")
@@ -79,4 +87,8 @@ uk_raw <- as.xts(uk_raw)
 # Japan
 setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/JP")
 jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
+
 jp_raw <- as.xts(jp_raw)
+month <- function(x) format(x, "%Y-%m")
+jp_raw <- aggregate(jp_raw, by=month, FUN=last)
+jp_raw <- as.xts(jp_raw, order.by = as.yearmon(format(time(jp_raw)), "%Y-%m"))
