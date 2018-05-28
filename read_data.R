@@ -4,7 +4,7 @@ library(reshape2)
 
 
 # US
-setwd("./Data/US")
+setwd("./Data/US/Yield")
 us_raw <- read.zoo("FRB_H15.csv", 
                    header = TRUE, 
                    sep = ",",
@@ -25,7 +25,7 @@ us_raw <- aggregate(us_raw, by=month, FUN=last)
 us_raw <- as.xts(us_raw, order.by = as.yearmon(format(time(us_raw)), "%Y-%m"))
 
 # Germany
-setwd("./Data/DE")
+setwd("./Data/DE/Yield")
 file.list <- list.files(pattern='*.csv')
 
 de_raw <- lapply(file.list,
@@ -44,7 +44,7 @@ colnames(de_raw) <- c(6, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120)
 
 
 # Canada
-setwd("./Data/CA")
+setwd("./Data/CA/Yield")
 file.list <- list.files(pattern='*.csv')
 
 ca_raw <- list()
@@ -79,14 +79,14 @@ colnames(ca_raw) <- c(120,24,36,60,6,84,12,48)
 ca_raw <- ca_raw[,c("6","12","24","36","48","60","84","120")]
 
 # UK
-setwd("./Data/UK")
+setwd("./Data/UK/Yield")
 uk_raw <- read.zoo("curve_data.csv", header = TRUE, sep = ",", index.column = 1, format = "%d-%b-%y")
 colnames(uk_raw) <- substr(colnames(uk_raw), start =2, stop = 10)
 uk_raw <- as.xts(uk_raw)
 uk_raw <- uk_raw[,c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")]
 
 # Japan
-setwd("./Data/JP")
+setwd("./Data/JP/Yield")
 jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
 
 jp_raw <- as.xts(jp_raw)
@@ -105,3 +105,14 @@ setwd("..")
 save.image("yield_curve_data.RData")
 
 setwd("..")
+
+ca_yield_curve <- ca_raw
+de_yield_curve <- de_raw
+jp_yield_curve <- jp_raw
+uk_yield_curve <- uk_raw
+us_yield_curve <- us_raw
+
+# macroeconomic data
+
+# CA
+setwd("./Data/CA/Macro")
