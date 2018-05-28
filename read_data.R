@@ -125,8 +125,10 @@ ca_r <- as.xts(ca_r)
 ca_u <- read.zoo("Canada Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 ca_u <- as.xts(ca_u)
 
+setwd("../..")
+
 # DE
-setwd("./Data/DE/Macro")
+setwd("./DE/Macro")
 de_cu <- read.zoo("Germany Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_cu <- as.xts(de_cu)
 de_infl <- read.zoo("Germany Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
@@ -140,3 +142,44 @@ remove(de_db_r)
 remove(de_ecb_r)
 de_u <- read.zoo("Germany Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_u <- as.xts(de_u)
+
+setwd("../..")
+
+# Japan
+setwd("./JP/Macro")
+jp_cu <- read.zoo("Japan Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+jp_cu <- as.xts(jp_cu)
+jp_infl <- read.zoo("Japan Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+jp_infl <- as.xts(jp_infl)
+jp_r <- read.zoo("Japan Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+jp_r <- as.xts(jp_r)
+jp_u <- read.zoo("Japan Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+jp_u <- as.xts(jp_u)
+
+
+setwd("../..")
+
+# UK
+setwd("./UK/Macro")
+uk_cu <- read.zoo("United Kingdom Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+uk_cu <- as.xts(uk_cu)
+uk_infl <- read.zoo("United Kingdom Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+uk_infl <- as.xts(uk_infl)
+uk_r <- read.zoo("United Kingdom Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+uk_r <- as.xts(uk_r)
+uk_u <- read.zoo("United Kingdom Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+uk_u <- as.xts(uk_u)
+
+setwd("../..")
+
+# US (can into special)
+setwd("./US/Macro")
+us_cu <- read.zoo("TCU.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+us_cu <- as.xts(us_cu)
+us_infl <- read.zoo("CPI_growth.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+us_infl <- as.xts(us_infl)
+us_r <- read.zoo("FEDFUNDS.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+us_r <- as.xts(us_r)
+us_u <- read.zoo("Unemployment.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+us_u <- as.xts(us_u)
+
