@@ -85,6 +85,15 @@ colnames(uk_raw) <- substr(colnames(uk_raw), start =2, stop = 10)
 uk_raw <- as.xts(uk_raw)
 uk_raw <- uk_raw[,c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")]
 
+uk_raw <- sapply(uk_raw, function(x) { 
+  res <- to.monthly(x, drop.time = TRUE); 
+  return(res[,grep("Close", colnames(res))])
+})
+
+uk_raw <- do.call(merge, lapply(uk_raw,as.xts))
+
+colnames(uk_raw) <- c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")
+
 # Japan
 setwd("./Data/JP/Yield")
 jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
@@ -221,3 +230,5 @@ us_u <- read.zoo("usurtot.csv", header = TRUE, sep = ",", index.column = 1, form
 us_u <- as.xts(us_u)
 us_u <- to.monthly(us_u, drop.time = TRUE)
 us_u <- us_u$us_u.Close
+
+
