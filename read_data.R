@@ -118,12 +118,20 @@ us_yield_curve <- us_raw
 setwd("./Data/CA/Macro")
 ca_cu <- read.zoo("Canada Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 ca_cu <- as.xts(ca_cu)
+ca_cu <- to.monthly(ca_cu, drop.time = TRUE)
+ca_cu <- ca_cu$ca_cu.Close
 ca_infl <- read.zoo("Canada Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 ca_infl <- as.xts(ca_infl)
+ca_infl <- to.monthly(ca_infl, drop.time = TRUE)
+ca_infl <- ca_infl$ca_infl.Close
 ca_r <- read.zoo("Canada Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 ca_r <- as.xts(ca_r)
 ca_u <- read.zoo("Canada Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 ca_u <- as.xts(ca_u)
+ca_u <- to.monthly(ca_u, drop.time = TRUE)
+ca_u <- ca_u$ca_u.Close
+ca_r <- to.monthly(ca_r, drop.time = TRUE)
+ca_r <- ca_r$ca_r.Close
 
 setwd("../..")
 
@@ -131,17 +139,25 @@ setwd("../..")
 setwd("./DE/Macro")
 de_cu <- read.zoo("Germany Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_cu <- as.xts(de_cu)
+de_cu <- to.monthly(de_cu, drop.time = TRUE)
+de_cu <- de_cu$de_cu.Close
 de_infl <- read.zoo("Germany Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_infl <- as.xts(de_infl)
+de_infl <- to.monthly(de_infl, drop.time = TRUE)
+de_infl <- de_infl$de_infl.Close
 de_db_r <- read.zoo("Deutchebank Intrest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_db_r <- as.xts(de_db_r)
 de_ecb_r <- read.zoo("ECB Intrest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_ecb_r <- as.xts(de_ecb_r)
 de_r <- rbind(de_db_r, de_ecb_r)
+de_r <- to.monthly(de_r, drop.time = TRUE)
+de_r <- de_r$de_r.Close
 remove(de_db_r)
 remove(de_ecb_r)
 de_u <- read.zoo("Germany Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 de_u <- as.xts(de_u)
+de_u <- to.monthly(de_u, drop.time = TRUE)
+de_u <- de_u$de_u.Close
 
 setwd("../..")
 
@@ -149,13 +165,20 @@ setwd("../..")
 setwd("./JP/Macro")
 jp_cu <- read.zoo("Japan Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 jp_cu <- as.xts(jp_cu)
+jp_cu <- to.monthly(jp_cu, drop.time = TRUE)
+jp_cu <- jp_cu$jp_cu.Close
 jp_infl <- read.zoo("Japan Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 jp_infl <- as.xts(jp_infl)
+jp_infl <- to.monthly(jp_infl, drop.time = TRUE)
+jp_infl <- jp_infl$jp_infl.Close
 jp_r <- read.zoo("Japan Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 jp_r <- as.xts(jp_r)
+jp_r <- to.monthly(jp_r, drop.time = TRUE)
+jp_r <- jp_r$jp_r.Close
 jp_u <- read.zoo("Japan Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 jp_u <- as.xts(jp_u)
-
+jp_u <- to.monthly(jp_u, drop.time = TRUE)
+jp_u <- jp_u$jp_u.Close
 
 setwd("../..")
 
@@ -163,12 +186,20 @@ setwd("../..")
 setwd("./UK/Macro")
 uk_cu <- read.zoo("United Kingdom Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 uk_cu <- as.xts(uk_cu)
+uk_cu <- to.monthly(uk_cu, drop.time = TRUE)
+uk_cu <- uk_cu$uk_cu.Close
 uk_infl <- read.zoo("United Kingdom Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 uk_infl <- as.xts(uk_infl)
+uk_infl <- to.monthly(uk_infl, drop.time = TRUE)
+uk_infl <- uk_infl$uk_infl.Close
 uk_r <- read.zoo("United Kingdom Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 uk_r <- as.xts(uk_r)
+uk_r <- to.monthly(uk_r, drop.time = TRUE)
+uk_r <- uk_r$uk_r.Close
 uk_u <- read.zoo("United Kingdom Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 uk_u <- as.xts(uk_u)
+uk_u <- to.monthly(uk_u, drop.time = TRUE)
+uk_u <- uk_u$uk_u.Close
 
 setwd("../..")
 
@@ -176,10 +207,17 @@ setwd("../..")
 setwd("./US/Macro")
 us_cu <- read.zoo("TCU.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 us_cu <- as.xts(us_cu)
+us_cu <- to.monthly(us_cu, drop.time = TRUE)
+us_cu <- us_cu$us_cu.Close
 us_infl <- read.zoo("CPI_growth.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 us_infl <- as.xts(us_infl)
+us_infl <- to.monthly(us_infl, drop.time = TRUE)
+us_infl <- us_infl$us_infl.Close
 us_r <- read.zoo("FEDFUNDS.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 us_r <- as.xts(us_r)
-us_u <- read.zoo("Unemployment.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+us_r <- to.monthly(us_r, drop.time = TRUE)
+us_r <- us_r$us_r.Close
+us_u <- read.zoo("usurtot.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
 us_u <- as.xts(us_u)
-
+us_u <- to.monthly(us_u, drop.time = TRUE)
+us_u <- us_u$us_u.Close
