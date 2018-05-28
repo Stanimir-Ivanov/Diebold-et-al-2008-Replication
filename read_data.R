@@ -116,3 +116,11 @@ us_yield_curve <- us_raw
 
 # CA
 setwd("./Data/CA/Macro")
+ca_cu <- read.zoo("Canada Capacity Utilization.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+ca_cu <- as.xts(ca_cu)
+ca_infl <- read.zoo("Canada Inflation Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+ca_infl <- as.xts(ca_infl)
+ca_r <- read.zoo("Canada Interest Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+ca_r <- as.xts(ca_r)
+ca_u <- read.zoo("Canada Unemployment Rate.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+ca_u <- as.xts(ca_u)
