@@ -4,7 +4,7 @@ library(reshape2)
 
 
 # US
-setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/US")
+setwd("./Data/US")
 us_raw <- read.zoo("FRB_H15.csv", 
                    header = TRUE, 
                    sep = ",",
@@ -25,7 +25,7 @@ us_raw <- aggregate(us_raw, by=month, FUN=last)
 us_raw <- as.xts(us_raw, order.by = as.yearmon(format(time(us_raw)), "%Y-%m"))
 
 # Germany
-setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/DE")
+setwd("./Data/DE")
 file.list <- list.files(pattern='*.csv')
 
 de_raw <- lapply(file.list,
@@ -44,7 +44,7 @@ colnames(de_raw) <- c(6, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120)
 
 
 # Canada
-setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/CA")
+setwd("./Data/CA")
 file.list <- list.files(pattern='*.csv')
 
 ca_raw <- list()
@@ -79,17 +79,29 @@ colnames(ca_raw) <- c(120,24,36,60,6,84,12,48)
 ca_raw <- ca_raw[,c("6","12","24","36","48","60","84","120")]
 
 # UK
-setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/UK")
+setwd("./Data/UK")
 uk_raw <- read.zoo("curve_data.csv", header = TRUE, sep = ",", index.column = 1, format = "%d-%b-%y")
 colnames(uk_raw) <- substr(colnames(uk_raw), start =2, stop = 10)
 uk_raw <- as.xts(uk_raw)
 uk_raw <- uk_raw[,c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")]
 
 # Japan
-setwd("C:/Users/Stan/Documents/Repos/Diebold-et-al-2008-Replication/Data/JP")
+setwd("./Data/JP")
 jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
 
 jp_raw <- as.xts(jp_raw)
 month <- function(x) format(x, "%Y-%m")
 jp_raw <- aggregate(jp_raw, by=month, FUN=last)
 jp_raw <- as.xts(jp_raw, order.by = as.yearmon(format(time(jp_raw)), "%Y-%m"))
+m6 <- read.zoo("6m.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+m6 <- as.xts(m6)
+m6 <- to.monthly(m6, drop.time = TRUE)
+
+jp_raw <- merge(jp_raw, m6$X6)
+jp_raw <- jp_raw[,c("X6", "X12", "X24", "X36", "X48", "X60", "X72", "X84", "X96", "X108", "X120")]
+colnames(jp_raw) <- c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")
+
+setwd("..")
+save.image("yield_curve_data.RData")
+
+setwd("..")
