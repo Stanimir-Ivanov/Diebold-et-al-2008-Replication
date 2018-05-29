@@ -9,7 +9,7 @@ de_lf <- get_lf(de_yield_curve)
 uk_lf <- get_lf(uk_yield_curve)
 
 # use latent factor data only for time period of study
-start_date <- "Apr 1994"
+start_date <- "Jul 1986"
 end_date <- "Apr 2018"
 us_lf <- us_lf[time(us_lf) >= start_date & time(us_lf) <= end_date]
 ca_lf <- ca_lf[time(ca_lf) >= start_date & time(ca_lf) <= end_date]
