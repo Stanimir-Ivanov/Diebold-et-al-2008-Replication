@@ -94,6 +94,14 @@ uk_raw <- do.call(merge, lapply(uk_raw,as.xts))
 
 colnames(uk_raw) <- c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")
 
+# linear interpolation on missing data
+uk_yield_curve[time(uk_yield_curve) == "Nov 1994", "6"] <- 6.04+.255
+uk_yield_curve[time(uk_yield_curve) == "Dec 1994", "6"] <- 6.295+.255
+uk_yield_curve[time(uk_yield_curve) == "Mar 1996", "6"] <- 5.72+.08
+uk_yield_curve[time(uk_yield_curve) == "Apr 1996", "6"] <- 5.8+.08
+uk_yield_curve[time(uk_yield_curve) == "Dec 1996", "6"] <- 6.3-.16
+uk_yield_curve[time(uk_yield_curve) == "Jan 1997", "6"] <- 6.14-.16
+
 # Japan
 setwd("./Data/JP/Yield")
 jp_raw <- read.zoo("jgbcme_all.csv", header = TRUE, sep = ",", index.column = 1, format = "%m/%d/%Y")
@@ -109,6 +117,8 @@ m6 <- to.monthly(m6, drop.time = TRUE)
 jp_raw <- merge(jp_raw, m6$X6)
 jp_raw <- jp_raw[,c("X6", "X12", "X24", "X36", "X48", "X60", "X72", "X84", "X96", "X108", "X120")]
 colnames(jp_raw) <- c("6", "12", "24", "36", "48", "60", "72", "84", "96", "108", "120")
+jp_yield_curve[time(jp_yield_curve) == "Mar 2002", "6"] <- 0.0025
+jp_yield_curve[time(jp_yield_curve) == "Sep 2002", "6"] <- 0.005
 
 setwd("..")
 save.image("yield_curve_data.RData")
