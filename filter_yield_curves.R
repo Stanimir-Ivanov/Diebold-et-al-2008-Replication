@@ -1,0 +1,5 @@
+us_yield_curve <- us_yield_curve[time(us_yield_curve) >= start_date & time(us_yield_curve) <= end_date]
+ca_yield_curve <- ca_yield_curve[time(ca_yield_curve) >= start_date & time(ca_yield_curve) <= end_date]
+jp_yield_curve <- jp_yield_curve[time(jp_yield_curve) >= start_date & time(jp_yield_curve) <= end_date]
+de_yield_curve <- de_yield_curve[time(de_yield_curve) >= start_date & time(de_yield_curve) <= end_date]
+uk_yield_curve <- uk_yield_curve[time(uk_yield_curve) >= start_date & time(uk_yield_curve) <= end_date]

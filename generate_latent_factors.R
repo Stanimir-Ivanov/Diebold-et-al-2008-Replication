@@ -6,7 +6,7 @@ library(dplyr)
 get_lf <- function(yield_curve, lambda) {
   return(
     rollapply(yield_curve, width = 1, by.column = FALSE, FUN = function(x) {
-      res <- Nelson.Siegel(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
+      res <- Nelson.Siegel2(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
       return(res$Par)
     })
   )
@@ -23,6 +23,21 @@ Nelson.Siegel <- function(rate, tau, lambda)
   NaValues <- na.omit(betaPar)
   if(length(NaValues) < 3) betaPar <- c(0,0,0)
   names(betaPar) <- c("beta_0", "beta_1", "beta_2")
+  res <- resid(beta) %>% t() %>% as.xts(order.by = t)
+  EstResults <- list(Par=betaPar, Res=res)
+  return(EstResults)
+}
+
+Nelson.Siegel2 <- function(rate, tau, lambda)
+{
+  t <- time(rate)
+  fb1 <- factorBeta1(tau, lambda) %>% t() %>% as.xts(order.by = t)
+  
+  beta <- lm(t(rate) ~ 1 + t(fb1))
+  betaPar <- coef(beta) %>% t() %>% as.xts(order.by = t)
+  NaValues <- na.omit(betaPar)
+  if(length(NaValues) < 2) betaPar <- c(0,0)
+  names(betaPar) <- c("beta_0", "beta_1")
   res <- resid(beta) %>% t() %>% as.xts(order.by = t)
   EstResults <- list(Par=betaPar, Res=res)
   return(EstResults)
