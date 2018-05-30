@@ -6,7 +6,7 @@ library(dplyr)
 get_lf <- function(yield_curve, lambda) {
   return(
     rollapply(yield_curve, width = 1, by.column = FALSE, FUN = function(x) {
-      res <- Nelson.Siegel2(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
+      res <- Nelson.Siegel(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
       return(res$Par)
     })
   )
