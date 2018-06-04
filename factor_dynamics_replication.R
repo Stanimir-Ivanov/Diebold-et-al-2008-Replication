@@ -1,6 +1,8 @@
 # detach("package:dplyr", unload = TRUE)
 library(xts)
-library(stats)
+library(stats) # stats for ARIMA
+library(MTS) # multivariate time series for VAR
+
 load("./Data/latent_factor_data.RData")
 
 eq5 <- VAR(glob_f, p = 1, fixed = diag(3), include.mean = FALSE, output = FALSE)

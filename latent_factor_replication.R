@@ -3,9 +3,8 @@ setwd("./LF Utils/")
 
 source("generate_latent_factors.R")
 
-# filter yield curves only for specified time series
-start_date <- "Apr 1995"
-end_date <- "Apr 2018"
+# filter yield curves only for specified ramge
+source("../range.R")
 source("filter_yield_curves.R")
 
 # interpolate yield curves for specified maturities
