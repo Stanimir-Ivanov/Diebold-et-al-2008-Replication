@@ -42,6 +42,13 @@ ca_macro$`capacity utilization` <- approx(x = ca_q, y = ca_cu, xout = time(ca_ma
 de_macro$`capacity utilization` <- approx(x = de_q, y = de_cu, xout = time(de_macro) %>% as.numeric())$y
 uk_macro$`capacity utilization` <- approx(x = uk_q, y = uk_cu, xout = time(uk_macro) %>% as.numeric())$y
 
+load("./Data/latent_factor_data.RData")
+
+loc_f[["CA"]] <- cbind(loc_f[["CA"]], ca_macro)
+loc_f[["DE"]] <- cbind(loc_f[["DE"]], de_macro)
+loc_f[["US"]] <- cbind(loc_f[["US"]], us_macro)
+loc_f[["JP"]] <- cbind(loc_f[["JP"]], jp_macro)
+loc_f[["UK"]] <- cbind(loc_f[["UK"]], uk_macro)
 
 # workspace cleanup
 remove(ca_cu, ca_infl, ca_r, ca_u)
@@ -49,5 +56,8 @@ remove(de_cu, de_infl, de_r, de_u)
 remove(us_cu, us_infl, us_r, us_u)
 remove(jp_cu, jp_infl, jp_r, jp_u)
 remove(uk_cu, uk_infl, uk_r, uk_u)
+remove(ca_macro, de_macro, jp_macro, us_macro, uk_macro)
+remove(loc_curvature, loc_level, loc_slope)
+
 
 save.image("./Data/macroeconomic_data_filtered.RData")
