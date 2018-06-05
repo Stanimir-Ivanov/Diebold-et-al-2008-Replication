@@ -1,4 +1,4 @@
-load("./Data/macroeconomic_data_filtered.RData")
+load("./Data/grouped_macro.RData")
 
 ext1 <- lapply(loc_f, function(x) {
 
@@ -20,6 +20,21 @@ ext1 <- lapply(loc_f, function(x) {
 
 remove(glob_f)
 remove(loc_f)
-save.image("./Data/arimax_results.RData")
+save.image("./Data/extension_results.RData")
+
+
+# 
+# 
+# 
+# load("./Data/interpolated_yield_curves.RData")
+# source("./LF Utils/generate_latent_factors.R")
+# tau <- colnames(ca_yield_curve) %>% as.numeric()
+# lambda <- 0.0609
+# fb1 <- factorBeta1(tau, lambda) %>% t() %>% data.frame()
+# fb2 <- factorBeta2(tau, lambda) %>% t() %>% data.frame()
+# 
+# fb1 <- do.call("rbind", replicate(length(time(ca_yield_curve)), fb1, simplify = FALSE))
+# fb2 <- do.call("rbind", replicate(length(time(ca_yield_curve)), fb2, simplify = FALSE))
+
 
 # source("./LF Utils/generate_latent_factors.R")

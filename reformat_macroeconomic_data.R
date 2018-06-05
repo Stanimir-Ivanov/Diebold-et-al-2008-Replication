@@ -1,4 +1,4 @@
-load("./Data/marcoeconomic_data.RData")
+load("./Data/raw_marco.RData")
 
 # bind factors together
 ca_macro <- cbind(ca_cu, ca_infl, ca_r, ca_u)
@@ -60,4 +60,4 @@ remove(ca_macro, de_macro, jp_macro, us_macro, uk_macro)
 remove(loc_curvature, loc_level, loc_slope)
 
 
-save.image("./Data/macroeconomic_data_filtered.RData")
+save.image("./Data/grouped_macro.RData")

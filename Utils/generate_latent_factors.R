@@ -12,6 +12,15 @@ get_lf <- function(yield_curve, lambda) {
   )
 }
 
+get_res <- function(yield_curve, lambda) {
+  return(
+    rollapply(yield_curve, width = 1, by.column = FALSE, FUN = function(x) {
+      res <- Nelson.Siegel(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
+      return(res$Res)
+    })
+  )
+}
+
 Nelson.Siegel <- function(rate, tau, lambda)
 {
   t <- time(rate)

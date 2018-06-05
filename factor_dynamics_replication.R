@@ -34,4 +34,4 @@ remove(loc_level)
 remove(loc_slope)
 remove(loc_curvature)
 
-save.image("./Data/factor_dynamics_data.RData")
+save.image("./Data/replication_results.RData")
