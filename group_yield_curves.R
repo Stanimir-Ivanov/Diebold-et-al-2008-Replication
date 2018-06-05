@@ -3,7 +3,7 @@ load("./Data/raw_yield_curves.RData")
 # filter yield curves only for specified ramge
 source("./range.R")
 source("./Utils/filter_yield_curves.R")
-
+source("./Utils/missing_uk_6m.R")
 # interpolate yield curves for specified maturities
 xout <- c(6, 9 ,12, 15, 18, 21, 24, 30, 36, 48, 60, 72, 84, 96, 108, 120)
 source("./Utils/interpolate_yield_curves.R")

@@ -1,0 +1,1 @@
+plot.xts(cbind(ext2$US$residual, ext2$CA$residual, ext2$JP$residual, ext2$DE$residual, ext2$UK$residual), legend.loc = "topright")

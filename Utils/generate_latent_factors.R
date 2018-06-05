@@ -12,17 +12,26 @@ get_lf <- function(yield_curve, lambda) {
   )
 }
 
+get_lf_ma1 <- function(yc_res_data, tau, lambda) {
+  return(rollapply(yc_res_data, width = 1, by.column = FALSE, FUN = function(x){
+      rate <- x[,grepl("Yield.Curve", colnames(x))]
+      rate_residuals <- x[,grepl("Residuals", colnames(x))]
+      res <- Nelson.Siegel.MA1(rate, rate_residuals, tau, lambda)
+      return(res$Par)
+    }))
+}
+
 get_res <- function(yield_curve, lambda) {
   return(
     rollapply(yield_curve, width = 1, by.column = FALSE, FUN = function(x) {
       res <- Nelson.Siegel(rate = x, tau = colnames(x) %>% as.numeric(), lambda = lambda)
+      colnames(res$Res) <- paste(colnames(res$Res),"Residuals")
       return(res$Res)
     })
   )
 }
 
-Nelson.Siegel <- function(rate, tau, lambda)
-{
+Nelson.Siegel <- function(rate, tau, lambda) {
   t <- time(rate)
   fb1 <- factorBeta1(tau, lambda) %>% t() %>% as.xts(order.by = t)
   fb2 <- factorBeta2(tau, lambda) %>% t() %>% as.xts(order.by = t)
@@ -31,14 +40,26 @@ Nelson.Siegel <- function(rate, tau, lambda)
   betaPar <- coef(beta) %>% t() %>% as.xts(order.by = t)
   NaValues <- na.omit(betaPar)
   if(length(NaValues) < 3) betaPar <- c(0,0,0)
-  names(betaPar) <- c("beta_0", "beta_1", "beta_2")
+  names(betaPar) <- c("level", "slope", "curvature")
   res <- resid(beta) %>% t() %>% as.xts(order.by = t)
   EstResults <- list(Par=betaPar, Res=res)
   return(EstResults)
 }
 
-Nelson.Siegel2 <- function(rate, tau, lambda)
-{
+Nelson.Siegel.MA1 <- function(rate, rate_residuals, tau, lambda) {
+  t <- time(rate)
+  fb1 <- factorBeta1(tau, lambda) %>% t() %>% as.xts(order.by = t)
+  fb2 <- factorBeta2(tau, lambda) %>% t() %>% as.xts(order.by = t)
+  
+  beta <- lm(t(rate) ~ 1 + t(fb1) + t(fb2) + t(rate_residuals))
+  betaPar <- coef(beta) %>% t() %>% as.xts(order.by = t)
+  names(betaPar) <- c("level", "slope", "curvature", "residual")
+  res <- resid(beta) %>% t() %>% as.xts(order.by = t)
+  EstResults <- list(Par=betaPar, Res=res)
+  return(EstResults)
+}
+
+Nelson.Siegel2 <- function(rate, tau, lambda) {
   t <- time(rate)
   fb1 <- factorBeta1(tau, lambda) %>% t() %>% as.xts(order.by = t)
   

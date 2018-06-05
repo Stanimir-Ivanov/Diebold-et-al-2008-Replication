@@ -1,11 +1,10 @@
 source("./Utils/generate_latent_factors.R")
 load("./Data/grouped_yield_curves.RData")
+source("range.R")
 
 # estimate Nelson-Siegel latent factors
-lambda <- 0.0609
 loc_f <- lapply(yield_curves, function(x){
   res <- get_lf(yield_curve=x, lambda=lambda)
-  colnames(res) <- c("level", "slope", "curvature")
   return(res)
 })
 

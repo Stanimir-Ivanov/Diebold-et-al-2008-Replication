@@ -29,14 +29,14 @@ setwd("./Data/DE/Yield")
 file.list <- list.files(pattern='*.csv')
 
 de_raw <- lapply(file.list,
-             function(x) read.zoo(file=x, 
-                                  tz="UTC", 
-                                  header=FALSE, 
-                                  sep=",", 
-                                  index.column = 1, 
-                                  FUN = as.yearmon, 
-                                  skip = 5)
-             )
+                 function(x) read.zoo(file=x, 
+                                      tz="UTC", 
+                                      header=FALSE, 
+                                      sep=",", 
+                                      index.column = 1, 
+                                      FUN = as.yearmon, 
+                                      skip = 5)
+)
 
 de_raw <- do.call(merge,lapply(de_raw,as.xts))
 de_raw <- de_raw[,rep(c(TRUE, FALSE), 11)]
@@ -59,7 +59,7 @@ ca_raw <- lapply(ca_raw, function(x)
       order.by = as.yearmon(paste(x[,'X'], 
                                   substr(x[,'variable'], start = 2, stop = 4), 
                                   sep = "-"))
-      )
+  )
 )
 
 ca_raw <- lapply(ca_raw, as.xts)

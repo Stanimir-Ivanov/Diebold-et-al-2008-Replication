@@ -1,4 +1,4 @@
-load("./Data/raw_marco.RData")
+load("../Data/raw_marco.RData")
 
 # bind factors together
 ca_macro <- cbind(ca_cu, ca_infl, ca_r, ca_u)
@@ -13,7 +13,7 @@ uk_macro <- cbind(uk_cu, uk_infl, uk_r, uk_u)
 colnames(uk_macro) <- c("capacity utilization", "inflation", "interest rate", "unemployment")
 
 # filter to range
-source("range.R")
+source("../range.R")
 ca_macro <- ca_macro[time(ca_macro) >= start_date & time(ca_macro) <= end_date]
 de_macro <- de_macro[time(de_macro) >= start_date & time(de_macro) <= end_date]
 us_macro <- us_macro[time(us_macro) >= start_date & time(us_macro) <= end_date]
@@ -42,7 +42,7 @@ ca_macro$`capacity utilization` <- approx(x = ca_q, y = ca_cu, xout = time(ca_ma
 de_macro$`capacity utilization` <- approx(x = de_q, y = de_cu, xout = time(de_macro) %>% as.numeric())$y
 uk_macro$`capacity utilization` <- approx(x = uk_q, y = uk_cu, xout = time(uk_macro) %>% as.numeric())$y
 
-load("./Data/latent_factor_data.RData")
+load("../Data/latent_factor_data.RData")
 
 loc_f[["CA"]] <- cbind(loc_f[["CA"]], ca_macro)
 loc_f[["DE"]] <- cbind(loc_f[["DE"]], de_macro)
@@ -60,4 +60,4 @@ remove(ca_macro, de_macro, jp_macro, us_macro, uk_macro)
 remove(loc_curvature, loc_level, loc_slope)
 
 
-save.image("./Data/grouped_macro.RData")
+save.image("../Data/grouped_macro.RData")

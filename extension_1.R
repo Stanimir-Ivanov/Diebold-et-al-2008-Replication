@@ -21,20 +21,28 @@ ext1 <- lapply(loc_f, function(x) {
 remove(glob_f)
 remove(loc_f)
 save.image("./Data/extension_results.RData")
+remove(ext1)
 
+load("./Data/grouped_yield_curves.RData")
+source("./Utils/generate_latent_factors.R")
+source("range.R")
 
-# 
-# 
-# 
-# load("./Data/interpolated_yield_curves.RData")
-# source("./LF Utils/generate_latent_factors.R")
-# tau <- colnames(ca_yield_curve) %>% as.numeric()
-# lambda <- 0.0609
-# fb1 <- factorBeta1(tau, lambda) %>% t() %>% data.frame()
-# fb2 <- factorBeta2(tau, lambda) %>% t() %>% data.frame()
-# 
-# fb1 <- do.call("rbind", replicate(length(time(ca_yield_curve)), fb1, simplify = FALSE))
-# fb2 <- do.call("rbind", replicate(length(time(ca_yield_curve)), fb2, simplify = FALSE))
+res <- lapply(yield_curves, function(x){
+  return(get_res(yield_curve = x, lambda = lambda) %>% stats::lag())
+})
 
+# omit first observation
+res <- lapply(res, function(x){
+  return(x[2:length(time(x)),])
+})
 
-# source("./LF Utils/generate_latent_factors.R")
+yield_curves <- lapply(yield_curves, function(x){
+  return(x[2:length(time(x)),])
+})
+
+ext2 <- mapply(FUN = function(x, y){
+  tau <- colnames(x) %>% as.numeric()
+  colnames(x) = paste(colnames(x), "Yield Curve")
+  yc_res_data <- cbind(x, y)
+  return(get_lf_ma1(yc_res_data, tau, lambda))
+}, x = yield_curves, y = res, SIMPLIFY = FALSE)
