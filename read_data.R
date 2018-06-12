@@ -199,6 +199,10 @@ jp_u <- as.xts(jp_u)
 jp_u <- to.monthly(jp_u, drop.time = TRUE)
 jp_u <- jp_u$jp_u.Close
 
+jp_na_r <- read.zoo("./Data/JP/Macro/INTDSRJPM193N.csv", header = TRUE, sep = ",", index.column = 1, format = "%Y-%m-%d")
+jp_na_r <- as.xts(jp_na_r)
+jp_na_r <- to.monthly(jp_na_r, drop.time = TRUE)
+jp_na_r <- jp_na_r$jp_na_r.Close
 setwd("../..")
 
 # UK

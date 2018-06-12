@@ -38,7 +38,7 @@ panel_data <- mapply(FUN = function(x, y, z){
 # }, x = yield_curves, y = res, SIMPLIFY = FALSE)
 
 ext2_pd <- lapply(panel_data, function(x){
-  beta <- lm(yield ~ fit + res + factor(maturity), data = x)
+  beta <- lm(yield ~ 0 + fit + res + factor(maturity), data = x)
   return(beta)
 })
 

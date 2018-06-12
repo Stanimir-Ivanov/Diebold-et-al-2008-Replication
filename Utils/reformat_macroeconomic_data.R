@@ -1,4 +1,4 @@
-load("../Data/raw_marco.RData")
+load("./Data/raw_marco.RData")
 
 # bind factors together
 ca_macro <- cbind(ca_cu, ca_infl, ca_r, ca_u)
@@ -13,7 +13,7 @@ uk_macro <- cbind(uk_cu, uk_infl, uk_r, uk_u)
 colnames(uk_macro) <- c("capacity utilization", "inflation", "interest rate", "unemployment")
 
 # filter to range
-source("../range.R")
+source("./range.R")
 ca_macro <- ca_macro[time(ca_macro) >= start_date & time(ca_macro) <= end_date]
 de_macro <- de_macro[time(de_macro) >= start_date & time(de_macro) <= end_date]
 us_macro <- us_macro[time(us_macro) >= start_date & time(us_macro) <= end_date]
@@ -21,11 +21,23 @@ jp_macro <- jp_macro[time(jp_macro) >= start_date & time(jp_macro) <= end_date]
 uk_macro <- uk_macro[time(uk_macro) >= start_date & time(uk_macro) <= end_date]
 
 # CA reports CU in Mar, so use interpolated value as first observation
-if(start_date == "Apr 1995")
+if(start_date == "Apr 1995"){
   ca_cu <- xts(83.05, as.Date("1 Apr 1995", format = "%d %b %Y")) %>% rbind(ca_cu)
   ca_cu <- to.monthly(ca_cu, drop.time = TRUE)
   ca_cu <- ca_cu$ca_cu.Close
+}
+  
 
+if(end_date == "Dec 2017"){
+  de_cu <- xts(de_cu[time(de_cu) == "Jan 2018"], as.Date("1 Dec 2017", format = "%d %b %Y")) %>% rbind(de_cu)
+  de_cu <- to.monthly(de_cu, drop.time = TRUE)
+  de_cu <- de_cu$de_cu.Close
+  
+  uk_cu <- xts(uk_cu[time(uk_cu) == "Jan 2018"], as.Date("1 Dec 2017", format = "%d %b %Y")) %>% rbind(uk_cu)
+  uk_cu <- to.monthly(uk_cu, drop.time = TRUE)
+  uk_cu <- uk_cu$uk_cu.Close
+}
+  
 
 # interpolate quarterly reported capacity utilization figures for CA, DE, UK to monthly frequencies
 
@@ -42,13 +54,15 @@ ca_macro$`capacity utilization` <- approx(x = ca_q, y = ca_cu, xout = time(ca_ma
 de_macro$`capacity utilization` <- approx(x = de_q, y = de_cu, xout = time(de_macro) %>% as.numeric())$y
 uk_macro$`capacity utilization` <- approx(x = uk_q, y = uk_cu, xout = time(uk_macro) %>% as.numeric())$y
 
-load("../Data/latent_factor_data.RData")
+load("./Data/latent_factor_data.RData")
 
 loc_f[["CA"]] <- cbind(loc_f[["CA"]], ca_macro)
 loc_f[["DE"]] <- cbind(loc_f[["DE"]], de_macro)
 loc_f[["US"]] <- cbind(loc_f[["US"]], us_macro)
 loc_f[["JP"]] <- cbind(loc_f[["JP"]], jp_macro)
 loc_f[["UK"]] <- cbind(loc_f[["UK"]], uk_macro)
+
+loc_f$JP$interest.rate[time(loc_f$JP) >= "May 2017"] <- -.1
 
 # workspace cleanup
 remove(ca_cu, ca_infl, ca_r, ca_u)
@@ -60,4 +74,4 @@ remove(ca_macro, de_macro, jp_macro, us_macro, uk_macro)
 remove(loc_curvature, loc_level, loc_slope)
 
 
-save.image("../Data/grouped_macro.RData")
+save.image("./Data/grouped_macro.RData")
