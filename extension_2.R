@@ -3,10 +3,10 @@ source("./Utils/generate_latent_factors.R")
 source("range.R")
 
 fit <- lapply(yield_curves, function(x){
-  return(get_fit(x, lambda))
+  return(get_fit_res(x, lambda))
 })
 
-res <- lapply(yield_curves, function(x){
+res <- lapply(yield_curves, function(x){x
   return(get_res(yield_curve = x, lambda = lambda) %>% stats::lag())
 })
 
@@ -30,12 +30,6 @@ panel_data <- mapply(FUN = function(x, y, z){
   return(tmp)
 }, x = melted_yc, y = melted_fit, z = melted_res, SIMPLIFY = FALSE)
 
-# ext2 <- mapply(FUN = function(x, y){
-#   tau <- colnames(x) %>% as.numeric()
-#   colnames(x) = paste(colnames(x), "Yield Curve")
-#   yc_res_data <- cbind(x, y)
-#   return(get_lf_ma1(yc_res_data, tau, lambda))
-# }, x = yield_curves, y = res, SIMPLIFY = FALSE)
 
 ext2_pd <- lapply(panel_data, function(x){
   beta <- lm(yield ~ 0 + fit + res + factor(maturity), data = x)
