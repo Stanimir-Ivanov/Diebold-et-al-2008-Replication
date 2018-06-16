@@ -1,11 +1,14 @@
 ## I  ################################################################################################
 library(forecast)
+library(MTS)
+library(zoo)
+library(stats)
 load("./Data/grouped_yield_curves.RData")
 load("./Data/grouped_macro.RData")
 source("./Utils/generate_latent_factors.R")
 source("range.R")
 source("./forecasting_utils.R")
-size <- 120
+size <- 36
 macro <- lapply(loc_f, stats::lag)
 tau <- as.numeric(colnames(yield_curves$US))
 lambdaMatrix <- LambdaMat(tau, lambda)
