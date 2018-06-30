@@ -50,6 +50,7 @@ tau <- c(6, 9 ,12, 15, 18, 21, 24, 30, 36, 48, 60, 72, 84, 96, 108, 120)
 rownames(df) <- tau
 dfz <- as.zoo(df)
 
+par(mfrow=c(1,1))
 plot.zoo(dfz, plot.type = "single", axes = FALSE, col = 1:5, type = 'l', ylab = TeX("$\\alpha$"),
          xlab = TeX("$\\tau$"))
 axis(side = 1, at = seq(1, 16, by = 3), labels = tau[seq(1, 16, by = 3)])
